@@ -34,11 +34,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http
 				.authorizeRequests(authorize -> authorize
+					// 对于静态文件和页面不拦截
 					.antMatchers("/css/**", "/index").permitAll()
+					// /user/下的请求只有拥有USER角色的用户才能访问
 					.antMatchers("/user/**").hasRole("USER")
 				)
 				.formLogin(formLogin -> formLogin
+					// 登录页地址
 					.loginPage("/login")
+					// 登录错误页地址
 					.failureUrl("/login-error")
 				);
 	}
@@ -47,10 +51,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public UserDetailsService userDetailsService() {
 		UserDetails userDetails = User.withDefaultPasswordEncoder()
+				// 用户名
 				.username("user")
+				// 密码
 				.password("password")
+				// 拥有的角色
 				.roles("USER")
 				.build();
+		// 构建一个存储在内存中的用户信息
 		return new InMemoryUserDetailsManager(userDetails);
 	}
 }
