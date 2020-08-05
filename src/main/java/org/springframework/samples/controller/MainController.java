@@ -27,27 +27,32 @@ public class MainController {
 
 	@RequestMapping("/")
 	public String root() {
+		// 重定向到/index
 		return "redirect:/index";
 	}
 
 	@RequestMapping("/index")
 	public String index() {
+		// 返回index.html页面
 		return "index";
 	}
 
 	@RequestMapping("/user/index")
 	public String userIndex() {
+		// 返回/user/index.html页面
 		return "user/index";
 	}
 
 	@RequestMapping("/login")
 	public String login() {
+		// 跳转到登录页(login.html)
 		return "login";
 	}
 
 	@RequestMapping("/login-error")
 	public String loginError(Model model) {
 		model.addAttribute("loginError", true);
+		// 跳转到登录页
 		return "login";
 	}
 
