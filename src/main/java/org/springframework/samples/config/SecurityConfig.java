@@ -33,18 +33,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
-				.authorizeRequests(authorize -> authorize
-					// 对于静态文件和页面不拦截
+				// 配置要控制的http URL
+				.authorizeRequests()
+					// 对于静态文件和页面不拦截。
 					.antMatchers("/css/**", "/index").permitAll()
 					// /user/下的请求只有拥有USER角色的用户才能访问
 					.antMatchers("/user/**").hasRole("USER")
-				)
-				.formLogin(formLogin -> formLogin
-					// 登录页地址
+				// 回到HttpSecurity
+				.and()
+				// 设置通过表单进行登录认证
+				.formLogin()
+					// 登录页地址，登录页不需要权限控制
 					.loginPage("/login")
 					// 登录错误页地址
-					.failureUrl("/login-error")
-				);
+					.failureUrl("/login-error");
 	}
 
 	@Override
