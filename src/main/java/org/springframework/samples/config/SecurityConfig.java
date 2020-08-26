@@ -15,7 +15,11 @@
  */
 package org.springframework.samples.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -23,6 +27,14 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
+import org.springframework.security.web.access.AccessDeniedHandler;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.sql.DataSource;
+import java.io.IOException;
 
 /**
  * @author Joe Grandja
@@ -39,6 +51,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					.antMatchers("/css/**", "/index").permitAll()
 					// /user/下的请求只有拥有USER角色的用户才能访问
 					.antMatchers("/user/**").hasRole("USER")
+					.antMatchers("/user/api/**").hasRole("USER")
+					.antMatchers("/admin/api/**").hasRole("ADMIN")
+					.antMatchers("/app/api/**").permitAll()
 				// 回到HttpSecurity
 				.and()
 				// 设置通过表单进行登录认证
@@ -49,10 +64,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					.failureUrl("/login-error");
 	}
 
-	@Override
+	/*@Override
 	@Bean
 	public UserDetailsService userDetailsService() {
-		UserDetails userDetails = User.withDefaultPasswordEncoder()
+		UserDetails admin = User.withDefaultPasswordEncoder()
+				// 用户名
+				.username("admin")
+				// 密码
+				.password("password")
+				// 拥有的角色
+				.roles("ADMIN", "USER")
+				.build();
+		UserDetails user = User.withDefaultPasswordEncoder()
 				// 用户名
 				.username("user")
 				// 密码
@@ -61,6 +84,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.roles("USER")
 				.build();
 		// 构建一个存储在内存中的用户信息
-		return new InMemoryUserDetailsManager(userDetails);
+		return new InMemoryUserDetailsManager(admin, user);
+	}*/
+
+	@Bean
+	public UserDetailsService userDetailsService(DataSource dataSource) {
+		JdbcUserDetailsManager manager = new JdbcUserDetailsManager(dataSource);
+		manager.createUser(User.withUsername("admin").password("password").roles("ADMIN", "USER").build());
+		manager.createUser(User.withUsername("user").password("password").roles("USER").build());
+		return manager;
 	}
 }
