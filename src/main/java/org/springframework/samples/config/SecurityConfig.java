@@ -93,7 +93,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		return new InMemoryUserDetailsManager(admin, user);
 	}*/
 
-	@Bean
+	/*@Bean
 	public UserDetailsService userDetailsService(DataSource dataSource) {
 		JdbcUserDetailsManager manager = new JdbcUserDetailsManager(dataSource);
 		if (!manager.userExists("admin")) {
@@ -103,5 +103,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			manager.createUser(User.withUsername("user").password("{noop}password").roles("USER").build());
 		}
 		return manager;
-	}
+	}*/
 }
