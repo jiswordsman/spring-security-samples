@@ -26,6 +26,9 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -51,8 +54,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					.antMatchers("/css/**", "/index").permitAll()
 					// /user/下的请求只有拥有USER角色的用户才能访问
 					.antMatchers("/user/**").hasRole("USER")
+					// USER角色的用户可以访问/user/api/下的资源
 					.antMatchers("/user/api/**").hasRole("USER")
+					// ADMIN角色的用户可以访问/admin/api/下的资源
 					.antMatchers("/admin/api/**").hasRole("ADMIN")
+					// /app/api/下的资源不做控制
 					.antMatchers("/app/api/**").permitAll()
 				// 回到HttpSecurity
 				.and()
@@ -90,8 +96,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public UserDetailsService userDetailsService(DataSource dataSource) {
 		JdbcUserDetailsManager manager = new JdbcUserDetailsManager(dataSource);
-		manager.createUser(User.withUsername("admin").password("password").roles("ADMIN", "USER").build());
-		manager.createUser(User.withUsername("user").password("password").roles("USER").build());
+		if (!manager.userExists("admin")) {
+			manager.createUser(User.withUsername("admin").password("{noop}password").roles("ADMIN", "USER").build());
+		}
+		if (!manager.userExists("user")) {
+			manager.createUser(User.withUsername("user").password("{noop}password").roles("USER").build());
+		}
 		return manager;
 	}
 }

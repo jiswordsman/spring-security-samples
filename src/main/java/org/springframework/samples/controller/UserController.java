@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     @GetMapping("/hello")
     public String hello() {
-        return "用户请求";
+        return "普通用户请求";
     }
 
 }

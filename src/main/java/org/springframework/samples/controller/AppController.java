@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 public class AppController {
     @GetMapping("/hello")
     public String hello() {
-        return "app请求";
+        return "app公开请求";
     }
 
 }
