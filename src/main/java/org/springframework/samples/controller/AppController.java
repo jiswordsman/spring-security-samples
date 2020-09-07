@@ -1,6 +1,11 @@
 package org.springframework.samples.controller;
 
+import com.ramostear.captcha.HappyCaptcha;
+import com.ramostear.captcha.support.CaptchaType;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * <h2>app请求</h2>
@@ -17,4 +22,11 @@ public class AppController {
         return "app公开请求";
     }
 
+    @GetMapping("/captcha")
+    public void getCaptcha(HttpServletRequest request, HttpServletResponse response) {
+        HappyCaptcha.require(request, response)
+                .type(CaptchaType.ARITHMETIC_ZH)
+                .build()
+                .finish();
+    }
 }

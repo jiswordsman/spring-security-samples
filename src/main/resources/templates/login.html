@@ -15,6 +15,8 @@
             <input type="text" id="username" name="username" autofocus="autofocus" /> <br />
             <label for="password">密码</label>:
             <input type="password" id="password" name="password" /> <br />
+            <input type="text" id="captcha" name="captcha"/>
+            <img id="captchaImg" src="/app/api/captcha" alt="验证码"/> <br />
             <input type="submit" value="登录" />
         </form>
         <p><a href="/index" th:href="@{/index}">返回主页</a></p>
