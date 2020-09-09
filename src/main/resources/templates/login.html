@@ -4,19 +4,30 @@
         <title>登录页</title>
         <meta charset="utf-8" />
         <link rel="stylesheet" href="/css/main.css" th:href="@{/css/main.css}" />
+        <script type="application/javascript">
+            /*
+             * 点击验证码图片时刷新验证码
+             */
+            function refreshCaptchaImg() {
+                document.getElementById('captchaImg').setAttribute('src', '/app/api/captcha?ts=' + Math.random());
+            }
+        </script>
 	</head>
     <body>
         <h1>登录页</h1>
         <p>示例用户，用户名和密码分别为：user/password</p>
-        <p th:if="${param.error}" class="error">用户名或密码错误！</p>
-        <div th:if="${param.logout}">已经退出。</div>
+        <!-- 登录失败时会显示该行内容-->
+        <p th:if="${loginError}" class="error">用户名或密码错误！</p>
+        <!-- logout后会显示该行内容-->
+        <p th:if="${param.logout}" class="error">已经退出。</p>
         <form th:action="@{/login}" method="post">
             <label for="username">用户名</label>:
             <input type="text" id="username" name="username" autofocus="autofocus" /> <br />
             <label for="password">密码</label>:
             <input type="password" id="password" name="password" /> <br />
-            <input type="text" id="captcha" name="captcha"/>
-            <img id="captchaImg" src="/app/api/captcha" alt="验证码"/> <br />
+            <label for="captcha">验证码</label>
+            <input type="text" id="captcha" name="captcha" placeholder="点击图片刷新" autocomplete="off"/>
+            <img id="captchaImg" src="/app/api/captcha" alt="验证码" onclick="refreshCaptchaImg()"/> <br />
             <input type="submit" value="登录" />
         </form>
         <p><a href="/index" th:href="@{/index}">返回主页</a></p>

@@ -7,7 +7,9 @@
     </head>
     <body>
         <div th:substituteby="index::logout"></div>
-        <h1>当前页面是安全的！</h1>
-        <p><a href="/index" th:href="@{/index}">返回主页</a></p>
+        <div style="background-color: lightgreen">
+            <h1>当前页面是安全的！</h1>
+            <p><a href="/index" th:href="@{/index}">返回主页</a></p>
+        </div>
     </body>
 </html>

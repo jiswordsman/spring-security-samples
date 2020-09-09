@@ -8,7 +8,7 @@
         <link rel="stylesheet" th:href="@{/css/main.css}" />
     </head>
     <body>
-        <div th:fragment="logout" class="logout" sec:authorize="isAuthenticated()">
+        <div th:fragment="logout" sec:authorize="isAuthenticated()" style="background-color: antiquewhite">
             登录用户: <span sec:authentication="name"></span> |
             角色: <span sec:authentication="principal.authorities"></span>
             <div>
@@ -17,10 +17,14 @@
                 </form>
             </div>
         </div>
-        <h1>Spring Security示例</h1>
-        <p>当前页面是不安全的，你可以通过登录之后访问安全的页面。</p>
-        <ul>
-            <li>访问<a href="/user/index" th:href="@{/user/index}">安全的页面</a></li>
-        </ul>
+        <div style="background-color: bisque">
+            <h1>Spring Security示例</h1>
+            <p>当前页面是不安全的，你可以通过登录之后访问安全的页面。</p>
+            <ul>
+                <li>访问<a href="/user/index" th:href="@{/user/index}">安全的页面</a></li>
+                <li>访问<a href="/user/index" th:href="@{/admin/api/hello}">访问/admin/api/hello</a></li>
+                <li>访问<a href="/user/index" th:href="@{/user/api/hello}">访问/user/api/hello</a></li>
+            </ul>
+        </div>
     </body>
 </html>

@@ -25,6 +25,7 @@ public class AppController {
     @GetMapping("/captcha")
     public void getCaptcha(HttpServletRequest request, HttpServletResponse response) {
         HappyCaptcha.require(request, response)
+                // 表示生成中文算法类型的验证码
                 .type(CaptchaType.ARITHMETIC_ZH)
                 .build()
                 .finish();
