@@ -16,6 +16,7 @@
 package org.springframework.samples.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingClass;
 import org.springframework.context.annotation.Bean;
@@ -46,6 +47,10 @@ import java.io.IOException;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
+	@Qualifier("customUserDetailsServiceImpl")
+	@Autowired
+	private UserDetailsService userDetailsService;
+
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http
@@ -72,7 +77,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					// 登录错误页地址
 					.failureUrl("/login-error")
 				.and()
-					.addFilterBefore(new CaptchaFilter(), UsernamePasswordAuthenticationFilter.class);
+					// 添加验证码校验过滤器
+					.addFilterBefore(new CaptchaFilter(), UsernamePasswordAuthenticationFilter.class)
+				.rememberMe();
 	}
 
 	/*@Override

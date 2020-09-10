@@ -17,7 +17,7 @@
         <h1>登录页</h1>
         <p>示例用户，用户名和密码分别为：user/password</p>
         <!-- 登录失败时会显示该行内容-->
-        <p th:if="${loginErrorMsg}" class="error"></p>
+        <p th:text="${loginErrorMsg}" class="error"></p>
         <!-- logout后会显示该行内容-->
         <p th:if="${param.logout}" class="error">已经退出。</p>
         <form th:action="@{/loginUrl}" method="post">
@@ -28,6 +28,7 @@
             <label for="captcha">验证码</label>
             <input type="text" id="captcha" name="captcha" placeholder="点击图片刷新" autocomplete="off"/>
             <img id="captchaImg" src="/app/api/captcha" alt="验证码" onclick="refreshCaptchaImg()"/> <br />
+            <input type="checkbox" name="remember-me">记住我
             <input type="submit" value="登录" />
         </form>
         <p><a href="/index" th:href="@{/index}">返回主页</a></p>
