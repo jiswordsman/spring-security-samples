@@ -32,6 +32,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -64,10 +65,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 				// 设置通过表单进行登录认证
 				.formLogin()
-					// 登录页地址，登录页不需要权限控制
+					// 登录页名称（即login.html)，登录页不需要权限控制
 					.loginPage("/login")
+					// 登录校验地址，点击登录按钮时会跳转到该地址
+					.loginProcessingUrl("/loginUrl")
 					// 登录错误页地址
-					.failureUrl("/login-error");
+					.failureUrl("/login-error")
+				.and()
+					.addFilterBefore(new CaptchaFilter(), UsernamePasswordAuthenticationFilter.class);
 	}
 
 	/*@Override

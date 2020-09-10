@@ -50,8 +50,11 @@ public class MainController {
 	}
 
 	@RequestMapping("/login-error")
-	public String loginError(Model model) {
-		model.addAttribute("loginError", true);
+	public String loginError(Model model, String msg) {
+		if (msg == null) {
+			msg = "用户名或密码错误";
+		}
+		model.addAttribute("loginErrorMsg", msg);
 		// 跳转到登录页
 		return "login";
 	}
