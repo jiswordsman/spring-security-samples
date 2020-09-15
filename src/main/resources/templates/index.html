@@ -21,9 +21,10 @@
             <h1>Spring Security示例</h1>
             <p>当前页面是不安全的，你可以通过登录之后访问安全的页面。</p>
             <ul>
-                <li>访问<a href="/user/index" th:href="@{/user/index}">安全的页面</a></li>
-                <li>访问<a href="/user/index" th:href="@{/admin/api/hello}">访问/admin/api/hello</a></li>
-                <li>访问<a href="/user/index" th:href="@{/user/api/hello}">访问/user/api/hello</a></li>
+                <li>访问<a th:href="@{/user/index}">安全的页面</a></li>
+                <li>访问<a th:href="@{/admin/api/hello}">访问/admin/api/hello</a></li>
+                <li>访问<a th:href="@{/user/api/hello}">访问/user/api/hello</a></li>
+                <li>访问<a th:href="@{/createUserPage}">创建用户页面</a></li>
             </ul>
         </div>
     </body>

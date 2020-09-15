@@ -1,5 +1,6 @@
 package org.springframework.samples.mapper;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
 import org.springframework.samples.model.Role;
 import org.springframework.samples.model.User;
@@ -32,4 +33,12 @@ public interface UserMapper {
      */
     @Select("SELECT r.*  FROM t_user_role ur LEFT JOIN t_role r ON r.id = ur.role_id  WHERE ur.user_id = #{userId}")
     List<Role> loadRolesByUserId(Long userId);
+
+    /**
+     * 保存用户
+     * @param user 用户
+     */
+    @Insert("insert into t_user(username, password, enable) values(#{username}, #{password}, 1)")
+    void insertUser(User user);
+
 }

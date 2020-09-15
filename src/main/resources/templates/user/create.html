@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+    <head>
+        <title>创建用户</title>
+        <meta charset="utf-8" />
+    </head>
+    <body>
+        <h3>创建用户</h3>
+        <!-- action是点击确认时，实际保存用户的请求路径。method是请求的方式 -->
+        <form th:action="@{/admin/api/createUser}" method="post">
+            <label for="username">用户名：</label>
+            <input type="text" name="username" id="username"><br/>
+            <label for="password">密码：</label>
+            <input type="password" name="password" id="password"><br/>
+            <button type="reset" value="重置">重置</button>
+            <button type="submit" value="确认">确认</button>
+        </form>
+    </body>
+</html>

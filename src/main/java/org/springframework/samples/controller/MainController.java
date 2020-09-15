@@ -49,6 +49,11 @@ public class MainController {
 		return "login";
 	}
 
+	@RequestMapping("/createUserPage")
+	public String createUserPage() {
+		return "user/create";
+	}
+
 	@RequestMapping("/login-error")
 	public String loginError(Model model, String msg) {
 		if (msg == null) {

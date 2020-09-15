@@ -1,5 +1,8 @@
 package org.springframework.samples.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.model.User;
+import org.springframework.samples.service.UserService;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -13,8 +16,17 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/admin/api")
 public class AdminController {
 
+    @Autowired
+    private UserService userService;
+
     @GetMapping("/hello")
     public String hello() {
         return "管理员请求";
+    }
+
+    @PostMapping("/createUser")
+    public String createUser(User user) {
+        userService.insertUser(user);
+        return "成功";
     }
 }

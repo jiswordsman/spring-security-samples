@@ -79,7 +79,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 					// 添加验证码校验过滤器
 					.addFilterBefore(new CaptchaFilter(), UsernamePasswordAuthenticationFilter.class)
-				.rememberMe();
+				// 添加rememberMe配置
+				.rememberMe()
+					.userDetailsService(userDetailsService);
 	}
 
 	/*@Override
@@ -116,4 +118,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 		}
 		return manager;
 	}*/
+
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+	}
 }
