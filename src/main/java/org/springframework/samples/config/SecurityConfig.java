@@ -34,6 +34,7 @@ import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -81,7 +82,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					.addFilterBefore(new CaptchaFilter(), UsernamePasswordAuthenticationFilter.class)
 				// 添加rememberMe配置
 				.rememberMe()
-					.userDetailsService(userDetailsService);
+					.userDetailsService(userDetailsService)
+				.and()
+				// 配置CSRF防护
+				.csrf()
+					.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
 	}
 
 	/*@Override
