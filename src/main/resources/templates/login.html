@@ -28,7 +28,6 @@
             <label for="captcha">验证码</label>
             <input type="text" id="captcha" name="captcha" placeholder="点击图片刷新" autocomplete="off"/>
             <img id="captchaImg" src="/app/api/captcha" alt="验证码" onclick="refreshCaptchaImg()"/> <br />
-            <input type="text" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
             <input type="checkbox" name="remember-me">记住我
             <input type="submit" value="登录" />
         </form>

@@ -85,8 +85,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 					.userDetailsService(userDetailsService)
 				.and()
 				// 配置CSRF防护
-				.csrf()
-					.csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
+				.csrf();
 	}
 
 	/*@Override
